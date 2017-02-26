@@ -23,7 +23,7 @@ public class DAO {
 	private Connection openConnection() {		
 		String userid = "mark";
 		String userpass = "Excite10";
-		String url = "jdbc:mysql://localhost:3306/";
+		String url = "jdbc:mysql://localhost:3306/web_sec_project";
 		Connection conn = null;
 		
 		try {

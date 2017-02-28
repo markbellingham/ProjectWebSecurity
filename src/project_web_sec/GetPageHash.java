@@ -12,7 +12,7 @@ public class GetPageHash {
 		
 			// Create a URL from the String and print it to the console for troubleshooting
 			URL url = new URL(address);
-			System.out.println(url);
+			// System.out.println(url);
 			
 			// Use BufferedReader to read the stream of data from the network
 			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));

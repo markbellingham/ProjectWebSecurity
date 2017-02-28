@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mark
@@ -54,7 +56,7 @@ public class DAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, page.getPageName());
 			pstmt.setString(2, page.getPageHash());
-			pstmt.execute();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -86,6 +88,28 @@ public class DAO {
 		return page;
 	}
 	
+	// Method that returns all pages as an ArrayList
+	public Map<String,String> getAllPages() {
+		Map<String, String> pages = new HashMap<>();
+		String sql = "SELECT * FROM pages";
+		Connection conn = openConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String pageName = rs.getString("page_name");
+				String pageHash = rs.getString("page_hash");
+				pages.put(pageName, pageHash);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(conn);
+		}
+		return pages;
+	}
+	
 	// Method that updates a page record in the database
 	public void updatePage(Page page) {
 		String sql = "UPDATE pages SET page_hash = ? WHERE page_name = ?";
@@ -95,7 +119,7 @@ public class DAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, page.getPageHash());
 			pstmt.setString(2, page.getPageName());
-			pstmt.execute();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -111,7 +135,7 @@ public class DAO {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, page.getPageName());
-			pstmt.execute();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

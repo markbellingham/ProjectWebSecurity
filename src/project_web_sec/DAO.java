@@ -128,13 +128,13 @@ public class DAO {
 	}
 	
 	// Method that deletes a page record from the database
-	public void deletePage(Page page) {
-		String sql = "DELETE FROM pages WHERE page_name = ?";
+	public void deletePage(String param) {
+		String sql = "DELETE FROM pages WHERE page_name like ?";
 		Connection conn = openConnection();
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, page.getPageName());
+			pstmt.setString(1, param);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

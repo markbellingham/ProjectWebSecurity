@@ -74,6 +74,8 @@ public class Controller {
 					System.out.println("Hash from db: " + dbHashes.get(address));
 					System.err.println("New page hash: " + sha512);
 					System.err.println("Hash match fail.");
+					String body = (address + " \n " + dbHashes.get(address) + " \n " + sha512);
+					Email.sendEmail("mark.bellingham@protonmail.ch", body);
 				}
 			}
 			try {

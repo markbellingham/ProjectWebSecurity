@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class GetPageHash {
 	
-	public String get(String address) throws IOException, NoSuchAlgorithmException {
+	public static String get(String address) throws IOException, NoSuchAlgorithmException {
 		
 			// Create a URL from the String and print it to the console for troubleshooting
 			URL url = new URL(address);
@@ -28,7 +28,7 @@ public class GetPageHash {
 			String sha512 = HashFunction.hash(pageSource);
 			
 			// Print the hash value for troubleshooting
-			System.out.println(sha512);
+			// System.out.println(sha512);
 			
 			return sha512;
 	}

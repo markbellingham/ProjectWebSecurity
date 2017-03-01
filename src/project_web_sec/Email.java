@@ -1,5 +1,12 @@
 package project_web_sec;
 
+/**
+ * Method adapted from one demonstrated by Pankaj
+ * Pankaj, (2017). JavaMail Example - Send Mail in Java using SMTP. [online] JournalDev. 
+ * Available at: http://www.journaldev.com/2532/javamail-example-send-mail-in-java-smtp 
+ * [Accessed 1 Mar. 2017].
+ */
+
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.Authenticator;
@@ -14,10 +21,13 @@ public class Email {
 	
 	public static void sendEmail (String adminAddress, String body) {
 		
+		// Authentication. The To email address is set in the Controller
 		final String fromAddress = "projectwebsec@gmail.com";
 		final String password = "Excite10";
 		final String toAddress = adminAddress;
 		
+		// Set the properties of the email
+		// SMTP Host, SSL Port, SSL Factory Class, enable SMTP authentication, SMTP Port 
 		Properties properties = new Properties();
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.socketFactory.port", "465");
@@ -25,13 +35,15 @@ public class Email {
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.port", "465");
 		
+		// This enables us to create a session and override the getPasswordAuthentication method
 		Authenticator authenticator = new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(fromAddress, password);
 			}
-		};
-		
+		};		
 		Session session = Session.getDefaultInstance(properties, authenticator);
+		
+		// 
 		emailUtil(session, toAddress, "Unauthorised Modification Warning", body);
 	}
 	
@@ -39,6 +51,7 @@ public class Email {
 		try {
 		      MimeMessage message = new MimeMessage(session);
 
+		      // Set message headers
 		      message.addHeader("Content-type", "text/HTML; charset=UTF-8");
 		      message.addHeader("format", "flowed");
 		      message.addHeader("Content-Transfer-Encoding", "8bit");

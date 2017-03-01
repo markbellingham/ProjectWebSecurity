@@ -13,10 +13,11 @@ public class Controller {
 		
 		String sha512 = null;
 		
-		// Create an instance of the DAO in order to use its methods
+		// Create an instance of the Data Accessor Object in order to use its methods
 		DAO dao = new DAO();
 		
-		// Remove all entries from the pages table in the database, ready to insert new ones
+		// Remove all old entries from the pages table in the database
+		// When the website has been updated, the program starts from afresh
 		dao.deletePage("http%");
 		
 		// Create an ArrayList of all the pages to be monitored
@@ -27,11 +28,10 @@ public class Controller {
 		addresses.add("http://localhost/ProjectWebSec/contact.php");
 		addresses.add("http://localhost/ProjectWebSec/css/stylesheet.css");
 		
-		for (String address : addresses) {
-			
+		for (String address : addresses) {			
 			// Get a hash for each page
 			try {
-				sha512 = GetPageHash.get(address);
+				sha512 = GetPageHash.hash(address);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -58,7 +58,7 @@ public class Controller {
 				
 				// Get a hash for each page
 				try {
-					sha512 = GetPageHash.get(address);
+					sha512 = GetPageHash.hash(address);
 				} catch (NoSuchAlgorithmException | IOException e) {
 					e.printStackTrace();
 				}
@@ -70,6 +70,7 @@ public class Controller {
 					System.out.println("New page hash: " + sha512);
 					System.out.println("Hash match success!!");
 				} else {
+					// If there is no match, generate and send an email with details to the administrator
 					System.out.println("Page: " + address);
 					System.out.println("Hash from db: " + dbHashes.get(address));
 					System.err.println("New page hash: " + sha512);

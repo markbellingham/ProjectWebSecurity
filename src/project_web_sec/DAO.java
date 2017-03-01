@@ -88,7 +88,7 @@ public class DAO {
 		return page;
 	}
 	
-	// Method that returns all pages as an ArrayList
+	// Method that returns all pages as a HashMap
 	public Map<String,String> getAllPages() {
 		Map<String, String> pages = new HashMap<>();
 		String sql = "SELECT * FROM pages";

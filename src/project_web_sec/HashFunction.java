@@ -1,5 +1,7 @@
 package project_web_sec;
 
+
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -9,10 +11,10 @@ public class HashFunction {
 		// Convert the String to bytes as required by MessageDigest
 		byte [] input = pageSource.getBytes();
 		
-		// Get a Message Digest object using SHA512 algorithm
+		// Get a Message Digest object that uses the SHA512 algorithm
 		MessageDigest SHA512 = MessageDigest.getInstance("SHA-512");
 		
-		// Compute digest
+		// Compute digest (hash value) of the page
 		SHA512.update(input);
 		byte [] digest = SHA512.digest();
 		

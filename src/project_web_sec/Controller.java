@@ -63,19 +63,21 @@ public class Controller {
 					e.printStackTrace();
 				}
 				
+				String dbHash = dbHashes.get(address);
+				
 				// Check if the new hashes match the ones in the database
-				if(dbHashes.get(address).equals(sha512)) {
+				if(dbHash.equals(sha512)) {
 					System.out.println("Page: " + address);
-					System.out.println("Hash from db: " + dbHashes.get(address));
+					System.out.println("Hash from db: " + dbHash);
 					System.out.println("New page hash: " + sha512);
 					System.out.println("Hash match success!!");
 				} else {
 					// If there is no match, generate and send an email with details to the administrator
 					System.out.println("Page: " + address);
-					System.out.println("Hash from db: " + dbHashes.get(address));
+					System.out.println("Hash from db: " + dbHash);
 					System.err.println("New page hash: " + sha512);
 					System.err.println("Hash match fail.");
-					String body = (address + " \n " + dbHashes.get(address) + " \n " + sha512);
+					String body = (address + " \n " + dbHash + " \n " + sha512);
 					Email.sendEmail("projectwebsec@gmail.com", body);
 				}
 			}

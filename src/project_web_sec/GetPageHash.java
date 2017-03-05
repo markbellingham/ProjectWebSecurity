@@ -15,7 +15,8 @@ public class GetPageHash {
 			// System.out.println(url);
 			
 			// Use BufferedReader to read the stream of data from the network
-			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+			InputStreamReader isr = new InputStreamReader(url.openStream());
+			BufferedReader br = new BufferedReader(isr);
 			
 			// Convert the data stream in the BufferedReader to a String
 			String input, pageSource = "";

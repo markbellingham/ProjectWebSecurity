@@ -2,7 +2,9 @@ package project_web_sec;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -77,6 +79,12 @@ public class Controller {
 					System.out.println("Hash from db: " + dbHash);
 					System.err.println("New page hash: " + sha512);
 					System.err.println("Hash match fail.");
+					
+					// Get the current time and pass to the Log Reader
+					String time = getTime();
+					LogReader.readLog(time);
+					
+					// Construct and send email to the Administrator 
 					String body = (address + " \n " + dbHash + " \n " + sha512);
 					Email.sendEmail("projectwebsec@gmail.com", body);
 				}
@@ -87,5 +95,13 @@ public class Controller {
 				System.out.println("Sleep interrupted");
 			}
 		}
+	}
+	
+	// Method that returns the current time
+	private static String getTime() {
+		Date currentDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		String currentTime = sdf.format(currentDate);
+		return currentTime;
 	}
 }

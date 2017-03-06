@@ -82,10 +82,11 @@ public class Controller {
 					
 					// Get the current time and pass to the Log Reader
 					String time = getTime();
-					LogReader.readLog(time);
+					System.out.println(time);
+					String ipAddress = LogReader.readLog(time);
 					
 					// Construct and send email to the Administrator 
-					String body = (address + " \n " + dbHash + " \n " + sha512);
+					String body = (address + "\n" + dbHash + "\n" + sha512 + "\n" + ipAddress);
 					Email.sendEmail("projectwebsec@gmail.com", body);
 				}
 			}
@@ -98,9 +99,9 @@ public class Controller {
 	}
 	
 	// Method that returns the current time
-	private static String getTime() {
+	public static String getTime() {
 		Date currentDate = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy:kk:mm:ss");
 		String currentTime = sdf.format(currentDate);
 		return currentTime;
 	}

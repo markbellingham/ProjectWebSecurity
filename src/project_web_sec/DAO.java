@@ -159,4 +159,26 @@ public class DAO {
 			closeConnection(conn);
 		}
 	}
+	
+	// Method that returns all IP addresses as a HashMap
+	public Map<String,String> getAllIPs() {
+		Map<String, String> ipAddresses = new HashMap<>();
+		String sql = "SELECT * FROM ipaddresses";
+		Connection conn = openConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ipAddress = rs.getString("ipAddress");
+				String date = rs.getString("date");
+				ipAddresses.put(ipAddress, date);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(conn);
+		}
+		return ipAddresses;
+	}
 }

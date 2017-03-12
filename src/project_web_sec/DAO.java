@@ -163,15 +163,15 @@ public class DAO {
 	// Method that returns all IP addresses as a HashMap
 	public Map<String,String> getAllIPs() {
 		Map<String, String> ipAddresses = new HashMap<>();
-		String sql = "SELECT * FROM ipaddresses";
+		String sql = "SELECT * FROM ip_addresses";
 		Connection conn = openConnection();
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String ipAddress = rs.getString("ipAddress");
-				String date = rs.getString("date");
+				String ipAddress = rs.getString("ip_address");
+				String date = rs.getString("date_accessed");
 				ipAddresses.put(ipAddress, date);
 			}
 		} catch (SQLException e) {

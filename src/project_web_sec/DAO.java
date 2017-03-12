@@ -142,4 +142,21 @@ public class DAO {
 			closeConnection(conn);
 		}
 	}
+	
+	// Method for inserting an IP address into the database
+	public void insertIP(IPAddress ipAddress) {
+		String sql = "INSERT INTO ipaddresses (page_name, page_hash) VALUES (?, ?)";
+		Connection conn = openConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ipAddress.getIpAddress());
+			pstmt.setString(2, ipAddress.getDate());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(conn);
+		}
+	}
 }

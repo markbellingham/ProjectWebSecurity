@@ -83,10 +83,15 @@ public class Controller {
 					// Get the current time and pass to the Log Reader
 					String time = getTime();
 					System.out.println(time);
-					String ipAddress = LogReader.readLog(time);
+					ArrayList<String> ipAddresses = LogReader.readLog(time);
 					
 					// Construct and send email to the Administrator 
-					String body = (address + "\n" + dbHash + "\n" + sha512 + "\n" + ipAddress);
+					String body = ("Page that was modified: " + address + 
+							"\nOriginal Hash: " + dbHash + 
+							"\nNew Hash: " + sha512 + "\n");
+					for (String ipAddress : ipAddresses) {
+						body += "\nIP Address accessing: " + ipAddress;
+					}
 					Email.sendEmail("projectwebsec@gmail.com", body);
 				}
 			}

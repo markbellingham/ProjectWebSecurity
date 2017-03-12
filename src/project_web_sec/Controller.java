@@ -80,18 +80,32 @@ public class Controller {
 					System.err.println("New page hash: " + sha512);
 					System.err.println("Hash match fail.");
 					
-					// Get the current time and pass to the Log Reader
+					// Get the current time and pass to the Log Reader to extract 
+					// the IP addresses that were accessing at the time
 					String time = getTime();
 					System.out.println(time);
-					ArrayList<String> ipAddresses = LogReader.readLog(time);
+					ArrayList<String> newIPAddresses = LogReader.readLog(time);
 					
 					// Construct and send email to the Administrator 
 					String body = ("Page that was modified: " + address + 
 							"\nOriginal Hash: " + dbHash + 
-							"\nNew Hash: " + sha512 + "\n");
-					for (String ipAddress : ipAddresses) {
-						body += "\nIP Address accessing: " + ipAddress;
+							"\nNew Hash: " + sha512 + "\n");					
+					
+					// Get a list of IP addresses that have previously been flagged
+					Map<String, String> dbIPAddresses = new HashMap<String, String>();
+					dbIPAddresses = dao.getAllIPs();
+					// Compare old with new. All IPs are included in the email to the administrator
+					for (String ipAddress : newIPAddresses) {
+						// Put the IP address into the database with time accessed
+						dao.insertIP(ipAddress, time);
+						// Message to the admin informs whether this IP address is known already
+						if (!dbIPAddresses.containsKey(ipAddress)) {
+							body += "\nNew IP Address: " + ipAddress;
+						} else {
+							body += "\nIP Address matched!: " + ipAddress;
+						}
 					}
+					
 					Email.sendEmail("projectwebsec@gmail.com", body);
 				}
 			}

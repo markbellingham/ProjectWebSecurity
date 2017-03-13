@@ -145,7 +145,7 @@ public class DAO {
 	
 	// Method for inserting an IP address into the database
 	public void insertIP(String ipAddress, String date) {
-		String sql = "INSERT INTO ipaddresses (page_name, page_hash) VALUES (?, ?)";
+		String sql = "INSERT INTO ip_addresses (ip_address, date_accessed) VALUES (?, ?)";
 		Connection conn = openConnection();
 		
 		try {

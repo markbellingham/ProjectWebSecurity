@@ -69,13 +69,13 @@ public class Controller {
 				
 				System.out.println("Page: " + address);
 				System.out.println("Hash from db: " + dbHash);
-				System.err.println("New page hash: " + sha512);
 				
 				// Check if the new hashes match the ones in the database
 				if(dbHash.equals(sha512)) {
 					System.out.println("Hash match success!!");
 				} else {
 					// If there is no match, generate and send an email with details to the administrator
+					System.err.println("New page hash: " + sha512);
 					System.err.println("Hash match fail.");
 					
 					// Get the current time and pass to the Log Reader to extract 

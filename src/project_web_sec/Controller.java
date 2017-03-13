@@ -92,6 +92,7 @@ public class Controller {
 					// Get a list of IP addresses that have previously been flagged
 					Map<String, String> dbIPAddresses = new HashMap<String, String>();
 					dbIPAddresses = dao.getAllIPs();
+					
 					// Compare old with new. All IPs are included in the email to the administrator
 					for (String ipAddress : newIPAddresses) {
 						// Put the IP address into the database with time accessed
@@ -102,13 +103,15 @@ public class Controller {
 						} else {
 							body += "\nIP Address matched!: " + ipAddress;
 						}
-					}
-					
+					}					
 					Email.sendEmail("projectwebsec@gmail.com", body);
+					
+					// Restore the website from the backup
+					RestoreWebsite.restore();
 				}
 			}
 			try {
-				TimeUnit.SECONDS.sleep(10);
+				TimeUnit.SECONDS.sleep(30);
 			} catch (InterruptedException e) {
 				System.out.println("Sleep interrupted");
 			}

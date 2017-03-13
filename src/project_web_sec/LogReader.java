@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.*;
 
 public class LogReader {
  
@@ -17,6 +16,7 @@ public class LogReader {
        	BufferedInputStream bis = null;
        	DataInputStream dis = null;
        	String ipAddress = "";
+       	String logDate = "";
        	ArrayList<String> ipAddresses = new ArrayList<String>();
  
        	try {
@@ -28,12 +28,12 @@ public class LogReader {
        			String logEntry = dis.readLine();
        			
        			String[] logEntryParts = logEntry.split(" ");
-       			String logDate = logEntryParts[3];
+       			logDate = logEntryParts[3];
        			logDate = logDate.substring(1);
        			
-       			System.out.println("errorTime: " + errorTime);
-       			System.out.println("logDate: " + logDate);
-       			System.out.println();
+//       			System.out.println("errorTime: " + errorTime);
+//       			System.out.println("logDate: " + logDate);
+//       			System.out.println();
        			
        			if (logDate.regionMatches(0, errorTime, 0, 17)) {
        				ipAddress = logEntryParts[0];
@@ -42,9 +42,7 @@ public class LogReader {
        				if (!ipAddresses.contains(ipAddress)) {
            				ipAddresses.add(ipAddress);	
        				}
-       	       		fis.close();
-       	       		bis.close();
-       	       		dis.close();
+
        			} 			
 
        		}

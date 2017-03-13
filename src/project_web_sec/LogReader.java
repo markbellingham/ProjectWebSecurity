@@ -37,7 +37,7 @@ public class LogReader {
        			
        			if (logDate.regionMatches(0, errorTime, 0, 17)) {
        				ipAddress = logEntryParts[0];
-       				System.out.println("Log IP Address: " + ipAddress);
+//       				System.out.println("Log IP Address: " + ipAddress);
        				
        				if (!ipAddresses.contains(ipAddress)) {
            				ipAddresses.add(ipAddress);	

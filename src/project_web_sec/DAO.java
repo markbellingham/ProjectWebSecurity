@@ -64,30 +64,6 @@ public class DAO {
 		}
 	}
 	
-	// Method that returns a single page from the database when provided with a page name
-	public Page getOnePage(String pageName) {
-		Page page = null;
-		String sql = "SELECT * FROM pages WHERE page_name = ?";
-		Connection conn = openConnection();
-		
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pageName);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				pageName = rs.getString("page_name");
-				String pageHash = rs.getString("page_hash");
-				page = new Page(pageName, pageHash);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(conn);
-		}
-		return page;
-	}
-	
 	// Method that returns all pages as a HashMap
 	public Map<String,String> getAllPages() {
 		Map<String, String> pages = new HashMap<>();
@@ -108,23 +84,6 @@ public class DAO {
 			closeConnection(conn);
 		}
 		return pages;
-	}
-	
-	// Method that updates a page record in the database
-	public void updatePage(Page page) {
-		String sql = "UPDATE pages SET page_hash = ? WHERE page_name = ?";
-		Connection conn = openConnection();
-		
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, page.getPageHash());
-			pstmt.setString(2, page.getPageName());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(conn);
-		}
 	}
 	
 	// Method that deletes a page record from the database

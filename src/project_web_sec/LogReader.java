@@ -27,26 +27,39 @@ public class LogReader {
        		while (dis.available() != 0) {
        			String logEntry = dis.readLine();
        			
+       			// Split the log entry into its constituent parts and extract the date
        			String[] logEntryParts = logEntry.split(" ");
        			logDate = logEntryParts[3];
        			logDate = logDate.substring(1);
        			
-//       			System.out.println("errorTime: " + errorTime);
-//       			System.out.println("logDate: " + logDate);
-//       			System.out.println();
+       			// Get the minute value from the date and convert to integer
+       			int logDate_minuteVal = Integer.parseInt(logDate.substring(15, 17));
+       			int errorTime_minuteVal = Integer.parseInt(errorTime.substring(15,17));
        			
-       			if (logDate.regionMatches(0, errorTime, 0, 17)) {
-       				ipAddress = logEntryParts[0];
-//       				System.out.println("Log IP Address: " + ipAddress);
-       				
-       				if (!ipAddresses.contains(ipAddress)) {
-           				ipAddresses.add(ipAddress);	
-       				}
+       			// Compare the minute value from the log with that from the program 
+   				if (logDate_minuteVal == errorTime_minuteVal || 
+   						logDate_minuteVal == errorTime_minuteVal - 1) {
+   					
+   	       			System.out.println("errorTime: " + errorTime);
+   	       			System.out.println("logDate:   " + logDate);
 
-       			} 			
+   					// If there is a match, the IP address for that 
+   					// entry is the one we are looking for
+   	       			ipAddress = logEntryParts[0];
+   	       			System.out.println("Log IP Address: " + ipAddress);
+   	       			System.out.println();
+   				}
 
-       		}
+   				// Create an ArrayList of all found IP addresses
+   				// Some will be duplicate because the web server logs an IP address for each 
+   				// component of the page that is downloaded
+   				if (!ipAddresses.contains(ipAddress) && !ipAddress.equals("127.0.0.1")) {
+       				ipAddresses.add(ipAddress);
+   				}
+
+   			}
        		
+       		// Close the buffers
        		fis.close();
        		bis.close();
        		dis.close();

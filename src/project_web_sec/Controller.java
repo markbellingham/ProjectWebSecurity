@@ -111,7 +111,7 @@ public class Controller {
 				}
 			}
 			try {
-				TimeUnit.SECONDS.sleep(30);
+				TimeUnit.SECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				System.out.println("Sleep interrupted");
 			}

@@ -40,21 +40,22 @@ public class LogReader {
    				if (logDate_minuteVal == errorTime_minuteVal || 
    						logDate_minuteVal == errorTime_minuteVal - 1) {
    					
-   	       			System.out.println("errorTime: " + errorTime);
-   	       			System.out.println("logDate:   " + logDate);
+//   	       			System.out.println("errorTime: " + errorTime);
+//   	       			System.out.println("logDate:   " + logDate);
 
    					// If there is a match, the IP address for that 
    					// entry is the one we are looking for
    	       			ipAddress = logEntryParts[0];
-   	       			System.out.println("Log IP Address: " + ipAddress);
-   	       			System.out.println();
+//   	       			System.out.println("Log IP Address: " + ipAddress);
    				}
 
-   				// Create an ArrayList of all found IP addresses
+   				// Create an ArrayList of all found IP addresses, excluding the localhost ones
    				// Some will be duplicate because the web server logs an IP address for each 
-   				// component of the page that is downloaded
-   				if (!ipAddresses.contains(ipAddress) && !ipAddress.equals("127.0.0.1")) {
-       				ipAddresses.add(ipAddress);
+   				// component of the page that is downloaded. The ArrayList should only record this once
+   				if (!ipAddresses.contains(ipAddress) && !ipAddress.equals("127.0.0.1") && !ipAddress.equals("::1") && !ipAddress.equals("192.168.1.189") && !ipAddress.equals("")) {
+
+   					ipAddresses.add(ipAddress);
+       				
    				}
 
    			}
@@ -67,6 +68,7 @@ public class LogReader {
        	} catch (IOException e) {
        		e.printStackTrace();
        	}
+       	
 		return ipAddresses;
 
 	}

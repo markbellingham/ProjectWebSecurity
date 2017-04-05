@@ -84,6 +84,10 @@ public class Controller {
 					System.out.println(time);
 					ArrayList<String> newIPAddresses = LogReader.readLog(time);
 					
+//					for (String ip : newIPAddresses) {
+//						System.out.println("IP from log: " + ip);
+//					}
+					
 					// Construct and send email to the Administrator 
 					String body = ("Page that was modified: " + address + 
 							"\nOriginal Hash: " + dbHash + 
@@ -102,8 +106,13 @@ public class Controller {
 							body += "\nNew IP Address: " + ipAddress;
 						} else {
 							body += "\nIP Address matched!: " + ipAddress;
+							
+							// If the IP address is known to the system
+							// block it using the .htaccess file
+							BlockIP.appendIP(ipAddress);
+							System.err.println("IP address " + ipAddress + " blocked.");
 						}
-					}					
+					}
 					Email.sendEmail("projectwebsec@gmail.com", body);
 					
 					// Restore the website from the backup
@@ -111,7 +120,7 @@ public class Controller {
 				}
 			}
 			try {
-				TimeUnit.SECONDS.sleep(10);
+				TimeUnit.SECONDS.sleep(60);
 			} catch (InterruptedException e) {
 				System.out.println("Sleep interrupted");
 			}

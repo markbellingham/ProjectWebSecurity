@@ -25,11 +25,6 @@ public class Controller {
 		// Create an ArrayList of all the pages to be monitored
 		ArrayList<String> addresses = new ArrayList<String>();
 		addresses = dao.getPageNames();
-//		addresses.add("http://localhost/ProjectWebSec/home.php");
-//		addresses.add("http://localhost/ProjectWebSec/about.php");
-//		addresses.add("http://localhost/ProjectWebSec/products.php");
-//		addresses.add("http://localhost/ProjectWebSec/contact.php");
-//		addresses.add("http://localhost/ProjectWebSec/css/stylesheet.css");
 		
 		for (String address : addresses) {			
 			// Get a hash for each page

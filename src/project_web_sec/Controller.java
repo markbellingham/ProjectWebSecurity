@@ -20,15 +20,16 @@ public class Controller {
 		
 		// Remove all old entries from the pages table in the database
 		// When the website has been updated, the program starts from afresh
-		dao.deletePage("http%");
+		dao.deletePageHash("http%");
 		
 		// Create an ArrayList of all the pages to be monitored
 		ArrayList<String> addresses = new ArrayList<String>();
-		addresses.add("http://localhost/ProjectWebSec/home.php");
-		addresses.add("http://localhost/ProjectWebSec/about.php");
-		addresses.add("http://localhost/ProjectWebSec/products.php");
-		addresses.add("http://localhost/ProjectWebSec/contact.php");
-		addresses.add("http://localhost/ProjectWebSec/css/stylesheet.css");
+		addresses = dao.getPageNames();
+//		addresses.add("http://localhost/ProjectWebSec/home.php");
+//		addresses.add("http://localhost/ProjectWebSec/about.php");
+//		addresses.add("http://localhost/ProjectWebSec/products.php");
+//		addresses.add("http://localhost/ProjectWebSec/contact.php");
+//		addresses.add("http://localhost/ProjectWebSec/css/stylesheet.css");
 		
 		for (String address : addresses) {			
 			// Get a hash for each page
@@ -42,7 +43,7 @@ public class Controller {
 			System.out.println("Page insert: " + address);
 			System.out.println("Hash insert: " + sha512);
 			Page page = new Page(address, sha512);
-			dao.insertPage(page);
+			dao.insertPageHash(page);
 		}
 		
 		// Create an ArrayList of hashes in the database
@@ -83,10 +84,6 @@ public class Controller {
 					String time = getTime();
 					System.out.println(time);
 					ArrayList<String> newIPAddresses = LogReader.readLog(time);
-					
-//					for (String ip : newIPAddresses) {
-//						System.out.println("IP from log: " + ip);
-//					}
 					
 					// Construct and send email to the Administrator 
 					String body = ("Page that was modified: " + address + 

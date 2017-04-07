@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,15 +48,36 @@ public class DAO {
 		}
 	}
 	
-	// Method for inserting a page into the database
-	public void insertPage(Page page) {
-		String sql = "INSERT INTO pages (page_name, page_hash) VALUES (?, ?)";
+	// Method for returning the page names
+	public ArrayList<String> getPageNames() {
+		String sql = "SELECT page_name FROM pages";
+		Connection conn = openConnection();
+		ArrayList<String> pageNames = new ArrayList<String>();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String pageName = rs.getString("page_name");
+				pageNames.add(pageName);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(conn);
+		}
+		return pageNames;
+	}
+	
+	// Method for inserting a page hash into the database
+	public void insertPageHash(Page page) {
+		String sql = "UPDATE pages SET page_hash = ? WHERE page_name LIKE ?";
 		Connection conn = openConnection();
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, page.getPageName());
-			pstmt.setString(2, page.getPageHash());
+			pstmt.setString(1, page.getPageHash());
+			pstmt.setString(2, page.getPageName());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,8 +109,8 @@ public class DAO {
 	}
 	
 	// Method that deletes a page record from the database
-	public void deletePage(String param) {
-		String sql = "DELETE FROM pages WHERE page_name like ?";
+	public void deletePageHash(String param) {
+		String sql = "UPDATE pages SET page_hash = NULL WHERE page_name like ?";
 		Connection conn = openConnection();
 		
 		try {

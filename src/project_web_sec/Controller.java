@@ -83,7 +83,8 @@ public class Controller {
 					// Construct and send email to the Administrator 
 					String body = ("Page that was modified: " + address + 
 							"\nOriginal Hash: " + dbHash + 
-							"\nNew Hash: " + sha512 + "\n");					
+							"\nNew Hash: " + sha512 + "\n" + 
+							"\nTime of change: " + time);
 					
 					// Get a list of IP addresses that have previously been flagged
 					Map<String, String> dbIPAddresses = new HashMap<String, String>();
@@ -97,12 +98,11 @@ public class Controller {
 						if (!dbIPAddresses.containsKey(ipAddress)) {
 							body += "\nNew IP Address: " + ipAddress;
 						} else {
-							body += "\nIP Address matched!: " + ipAddress;
+							body += "\nIP Address matched and blocked!: " + ipAddress;
 							
 							// If the IP address is known to the system
 							// block it using the .htaccess file
 							BlockIP.appendIP(ipAddress);
-							System.err.println("IP address " + ipAddress + " blocked.");
 						}
 					}
 					Email.sendEmail("projectwebsec@gmail.com", body);

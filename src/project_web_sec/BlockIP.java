@@ -27,6 +27,8 @@ public class BlockIP {
 			
 			// Close the file
 			writer.close();
+			
+			System.err.println("IP address " + ipAddress + " blocked.");
 		
 		} catch (IOException e) {
 			e.printStackTrace();

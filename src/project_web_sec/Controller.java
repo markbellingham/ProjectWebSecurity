@@ -54,11 +54,15 @@ public class Controller {
 			// Loop through the pages in the ArrayList			
 			for(String address : addresses) {
 				
+				// Body of the email
+				String body = "";
+				
 				// Get a hash for each page
 				try {
 					sha512 = GetPageHash.hash(address);
 				} catch (NoSuchAlgorithmException | IOException e) {
-					e.printStackTrace();
+					System.err.println("Error file missing: " + address);
+					body += "Error file missing: " + address;
 				}
 				
 				String dbHash = dbHashes.get(address);
@@ -81,7 +85,7 @@ public class Controller {
 					ArrayList<String> newIPAddresses = LogReader.readLog(time);
 					
 					// Construct and send email to the Administrator 
-					String body = ("Page that was modified: " + address + 
+					body += ("Page that was modified: " + address + 
 							"\nOriginal Hash: " + dbHash + 
 							"\nNew Hash: " + sha512 + "\n" + 
 							"\nTime of change: " + time);

@@ -32,31 +32,36 @@ public class LogReader {
        			logDate = logEntryParts[3];
        			logDate = logDate.substring(1);
        			
-       			// Get the minute value from the date and convert to integer
-       			int logDate_minuteVal = Integer.parseInt(logDate.substring(15, 17));
-       			int errorTime_minuteVal = Integer.parseInt(errorTime.substring(15,17));
-       			
-       			// Compare the minute value from the log with that from the program 
-   				if (logDate_minuteVal == errorTime_minuteVal || 
-   						logDate_minuteVal == errorTime_minuteVal - 1) {
-   					
-//   	       			System.out.println("errorTime: " + errorTime);
-//   	       			System.out.println("logDate:   " + logDate);
-
-   					// If there is a match, the IP address for that 
-   					// entry is the one we are looking for
-   	       			ipAddress = logEntryParts[0];
-//   	       			System.out.println("Log IP Address: " + ipAddress);
-   				}
-
-   				// Create an ArrayList of all found IP addresses, excluding the localhost ones
-   				// Some will be duplicate because the web server logs an IP address for each 
-   				// component of the page that is downloaded. The ArrayList should only record this once
-   				if (!ipAddresses.contains(ipAddress) && !ipAddress.equals("127.0.0.1") && !ipAddress.equals("::1") && !ipAddress.equals("192.168.1.189") && !ipAddress.equals("")) {
-
-   					ipAddresses.add(ipAddress);
+       			// Compare the first part of the date from the log with that from the error time  
+       			if (logDate.substring(0,14).equals(errorTime.substring(0,14))) {
        				
-   				}
+           			// Get the minute value from the date and convert to integer
+           			int logDate_minuteVal = Integer.parseInt(logDate.substring(15, 17));
+           			int errorTime_minuteVal = Integer.parseInt(errorTime.substring(15,17));
+           			
+           			// Compare the minute value from the log with that from the program 
+       				if (logDate_minuteVal == errorTime_minuteVal || 
+       						logDate_minuteVal == errorTime_minuteVal - 1) {
+       					
+       	       			System.out.println("errorTime: " + errorTime);
+       	       			System.out.println("logDate:   " + logDate);
+
+       					// If there is a match, the IP address for that 
+       					// entry is the one we are looking for
+       	       			ipAddress = logEntryParts[0];
+       	       			System.out.println("Log IP Address: " + ipAddress);
+       	       			System.out.println();
+       				}
+
+       				// Create an ArrayList of all found IP addresses, excluding the localhost ones
+       				// Some will be duplicate because the web server logs an IP address for each 
+       				// component of the page that is downloaded. The ArrayList should only record this once
+       				if (!ipAddresses.contains(ipAddress) && !ipAddress.equals("127.0.0.1") && !ipAddress.equals("::1") && !ipAddress.equals("192.168.1.189") && !ipAddress.equals("")) {
+
+       					ipAddresses.add(ipAddress);
+           				
+       				}	
+       			}
 
    			}
        		

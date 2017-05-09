@@ -1,0 +1,27 @@
+This program is designed to run on a specific computer.
+
+If you wish to run it on your own computer, a number of modifications will need to be made. Listed below are the locations of file-specific and database-specific lines of code that would need to be altered.
+
+BlockIP.java line 18
+String htaccessFile = "/home/mark/Sites/ProjectWebSec/.htaccess";
+
+DAO.java lines 27, 28 and 29
+String userid = "mark";
+String userpass = "Excite10";
+String url = "jdbc:mysql://localhost:3306/web_sec_project";
+
+LogReader.java line 14
+File logFile = new File("/opt/lampp/logs/access_log");
+
+RestoreWebsite.java lines 26 and 32
+Path path = Paths.get("/home/mark/Sites/ProjectWebSec/" + page);
+Path path = Paths.get("/home/mark/Sites/ProjectWebSec_backup/" + page);
+
+Controller.java line 112
+Email.sendEmail("projectwebsec@gmail.com", body);
+
+The code for creating the database tables is included in a separate file. The URL of each of the pages to be monitored must be inserted into the database before running the program.
+
+In addition, you must include the following *.jar files
+javax.mail.jar
+mysql-connector-java.jar

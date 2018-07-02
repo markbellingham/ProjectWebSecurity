@@ -8,4 +8,6 @@ Web pages are hashed and the hashes stored in a database. The program monitors t
 Program source code: https://github.com/markbellingham/ProjectWebSecurity
 
 ## Screenshot of console output
-![Console Output](/Screenshots/web-security.png "Console Output")
+![Console Output](/Screenshots/console-output.png "Console Output")
+
+![Email to Administrator](/Screenshots/email-output-ip-blocked.png "Email to administrator")
